@@ -15,12 +15,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <picocli.version>4.7.0</picocli.version>
-    <graal.vm.sdk.version>22.3.0</graal.vm.sdk.version>
+    <picocli.version>4.7.4</picocli.version>
+    <graal.vm.sdk.version>23.0.0</graal.vm.sdk.version>
 
-    <maven-compiler-plugin>3.8.1</maven-compiler-plugin>
-    <maven-shade-plugin>3.2.4</maven-shade-plugin>
-    <native-maven-plugin>0.9.12</native-maven-plugin>
+    <maven-compiler-plugin>3.11.0</maven-compiler-plugin>
+    <maven-shade-plugin>3.5.0</maven-shade-plugin>
+    <native-maven-plugin>0.9.23</native-maven-plugin>
   </properties>
 
   <dependencyManagement>
@@ -110,7 +110,7 @@
           <execution>
             <id>build-native</id>
             <goals>
-              <goal>build</goal>
+              <goal>compile-no-fork</goal>
             </goals>
             <phase>package</phase>
           </execution>
