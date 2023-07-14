@@ -106,6 +106,7 @@
         <groupId>org.graalvm.buildtools</groupId>
         <artifactId>native-maven-plugin</artifactId>
         <version>${native-maven-plugin}</version>
+        <extensions>true</extensions>
         <executions>
           <execution>
             <id>build-native</id>
@@ -120,7 +121,7 @@
           <imageName>sync</imageName>
           <mainClass>uk.co.chrisbibby.sync.Main</mainClass>
           <buildArgs>
-            --no-fallback
+            --no-fallback -march=native -R:MaxHeapSize=512m
           </buildArgs>
         </configuration>
       </plugin>
