@@ -9,14 +9,15 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <maven.compiler.source>18</maven.compiler.source>
-    <maven.compiler.target>18</maven.compiler.target>
+    <maven.compiler.source>20</maven.compiler.source>
+    <maven.compiler.target>20</maven.compiler.target>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <picocli.version>4.7.4</picocli.version>
     <graal.vm.sdk.version>23.0.0</graal.vm.sdk.version>
+    <sqlite-jdbc.version>3.42.0.0</sqlite-jdbc.version>
 
     <maven-compiler-plugin>3.11.0</maven-compiler-plugin>
     <maven-shade-plugin>3.5.0</maven-shade-plugin>
@@ -35,6 +36,11 @@
         <artifactId>graal-sdk</artifactId>
         <version>${graal.vm.sdk.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.xerial</groupId>
+        <artifactId>sqlite-jdbc</artifactId>
+        <version>${sqlite-jdbc.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -48,6 +54,11 @@
       <groupId>org.graalvm.sdk</groupId>
       <artifactId>graal-sdk</artifactId>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
     </dependency>
   </dependencies>
 
@@ -83,9 +94,14 @@
             <configuration>
               <filters>
                 <filter>
-                  <artifact>uk.co.chrisbibby:*</artifact>
+                  <artifact>*:*</artifact>
                   <excludes>
                     <exclude>META-INF/*.MF</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                    <exclude>META-INF/versions/9/*.*</exclude>
                   </excludes>
                 </filter>
               </filters>
@@ -121,7 +137,7 @@
           <imageName>sync</imageName>
           <mainClass>uk.co.chrisbibby.sync.Main</mainClass>
           <buildArgs>
-            --no-fallback -march=native -R:MaxHeapSize=512m
+            --no-fallback -march=native -R:MaxHeapSize=256m
           </buildArgs>
         </configuration>
       </plugin>

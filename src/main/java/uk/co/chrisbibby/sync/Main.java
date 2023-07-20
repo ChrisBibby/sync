@@ -2,7 +2,8 @@ package uk.co.chrisbibby.sync;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import uk.co.chrisbibby.sync.commands.Scan;
+import uk.co.chrisbibby.sync.commands.InitialiseCommand;
+import uk.co.chrisbibby.sync.commands.ScanCommand;
 
 import java.util.concurrent.Callable;
 
@@ -12,7 +13,8 @@ import java.util.concurrent.Callable;
     version = "sync 0.0.1",
     description = "File Synchronisation",
     subcommands = {
-        Scan.class
+        InitialiseCommand.class,
+        ScanCommand.class
     })
 public class Main implements Callable<Integer> {
   public static void main(final String[] args) {
