@@ -17,8 +17,10 @@ import java.util.concurrent.Callable;
         ScanCommand.class
     })
 public class Main implements Callable<Integer> {
+
   public static void main(final String[] args) {
-    System.exit(new CommandLine(new Main()).execute(args));
+    System.exit(new CommandLine(new Main())
+        .execute(args));
   }
 
   @Override
