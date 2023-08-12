@@ -2,34 +2,27 @@ package uk.co.chrisbibby.sync.services.initialise;
 
 import uk.co.chrisbibby.sync.services.common.FileHelper;
 import uk.co.chrisbibby.sync.services.common.DatabaseHelper;
-
-import java.io.PrintWriter;
+import uk.co.chrisbibby.sync.services.common.Logging;
 
 public class InitialiseService implements Initialise {
 
-  private final DatabaseHelper db;
-  private final FileHelper fileHelper;
-  private final PrintWriter err;
-  private final PrintWriter out;
+  private final Logging logging;
 
-
-
-  public InitialiseService(final PrintWriter err, final PrintWriter out) {
-    this.db = DatabaseHelper.getInstance();
-    this.fileHelper = FileHelper.getInstance();
-    this.err = err;
-    this.out = out;
-
+  public InitialiseService(final Logging logging) {
+    this.logging = logging;
   }
 
   @Override
   public void perform(final String fileset) {
-    if (fileHelper.fileExists(fileset)) {
-      err.printf("Unable to initialise %s - fileset already exists %n", fileset);
+    if (FileHelper.fileExists(fileset)) {
+      logging.getErr().printf("Unable to initialise %s - fileset already exists %n", fileset);
       return;
     }
 
-    out.printf("Initialising fileset: %s %n", fileset);
-    db.createNewDb(fileset);
+    logging.getOut().printf("Initialising fileset: %s %n", fileset);
+    final DatabaseHelper db = new DatabaseHelper(fileset, logging);
+    if (db.createNewDb(logging, fileset)) {
+      logging.getOut().printf("Successfully created fileset %s %n", fileset);
+    }
   }
 }

@@ -2,6 +2,9 @@ package uk.co.chrisbibby.sync.commands;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Spec;
+import uk.co.chrisbibby.sync.services.common.Logging;
 import uk.co.chrisbibby.sync.services.scan.Scan;
 import uk.co.chrisbibby.sync.services.scan.ScanService;
 
@@ -12,6 +15,8 @@ import static uk.co.chrisbibby.sync.services.common.Constants.EMPTY_STRING;
 @Command(name = "scan", description = "Scan Location")
 public class ScanCommand implements Runnable {
 
+  @Spec
+  private CommandSpec spec;
   private final static String LOCATION_PARAM = "0";
   private final static String FILESET_PARAM = "1";
 
@@ -31,9 +36,9 @@ public class ScanCommand implements Runnable {
       System.err.print("A fileset must be supplied! %n");
     }
 
+    final Logging logging = new Logging(spec);
 
-    final Scan scan = new ScanService();
+    final Scan scan = new ScanService(logging);
     scan.perform(Paths.get(location), fileset);
-    System.out.printf("Location to scan :%s %n", location);
   }
 }

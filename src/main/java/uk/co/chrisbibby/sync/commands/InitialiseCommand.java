@@ -4,9 +4,8 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Spec;
+import uk.co.chrisbibby.sync.services.common.Logging;
 import uk.co.chrisbibby.sync.services.initialise.InitialiseService;
-
-import java.io.PrintWriter;
 
 import static uk.co.chrisbibby.sync.services.common.Constants.EMPTY_STRING;
 
@@ -24,14 +23,13 @@ public class InitialiseCommand implements Runnable {
   @Override
   public void run() {
 
-    final PrintWriter err = spec.commandLine().getErr();
-    final PrintWriter out = spec.commandLine().getOut();
+    final Logging logging = new Logging(spec);
 
     if (null == fileset || EMPTY_STRING.equals(fileset)) {
-      err.print("A fileset location must be supplied!");
+      logging.getErr().print("A fileset location must be supplied!");
       return;
     }
 
-    new InitialiseService(err, out).perform(fileset);
+    new InitialiseService(logging).perform(fileset);
   }
 }
